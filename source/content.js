@@ -76,6 +76,7 @@ import hideNavigationHoverHighlight from './features/hide-navigation-hover-highl
 import displayIssueSuggestions from './features/display-issue-suggestions';
 import addPullRequestHotkey from './features/add-pull-request-hotkey';
 import openSelectionInNewTab from './features/add-selection-in-new-tab';
+import starredReposInDash from './features/starred-repos-in-dash';
 
 import * as pageDetect from './libs/page-detect';
 import {safeElementReady, enableFeature, safeOnAjaxedPages, injectCustomCSS} from './libs/utils';
@@ -111,6 +112,7 @@ async function init() {
 
 	if (pageDetect.isDashboard() && !pageDetect.isGist()) {
 		enableFeature(hideUselessNewsfeedEvents);
+		enableFeature(starredReposInDash);
 	}
 
 	if (pageDetect.isRepo()) {

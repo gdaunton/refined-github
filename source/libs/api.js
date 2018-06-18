@@ -2,8 +2,8 @@ import OptionsSync from 'webext-options-sync';
 
 const cache = new Map();
 
-export default async endpoint => {
-	if (cache.has(endpoint)) {
+export default async (endpoint, checkCache = true) => {
+	if (checkCache && cache.has(endpoint)) {
 		return cache.get(endpoint);
 	}
 	const headers = {};
@@ -14,6 +14,13 @@ export default async endpoint => {
 	const api = location.hostname === 'github.com' ? 'https://api.github.com/' : `${location.origin}/api/`;
 	const response = await fetch(api + endpoint, {headers});
 	const json = await response.json();
-	cache.set(endpoint, json);
-	return json;
+
+	const result = {
+		error: !response.ok,
+		data: json
+	};
+
+	cache.set(endpoint, result);
+
+	return result;
 };
